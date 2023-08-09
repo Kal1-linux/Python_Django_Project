@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+{% load static %}
+{% include 'header.html' %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <style>
+    body{
+    background-color:grey;
+    }
+           header {
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        margin: 20px 0;
+    }
+
+    label {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="file"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    input[type="submit"] {
+        background-color: #333;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #555;
+    }
+
+    .review {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .review img{
+        height: 600px;
+        width: 600px;
+        object-fit: cover;
+        margin-right: 10px;
+    }
+
+    .review-content {
+        flex: 1;
+    }
+
+    .reviews-container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    div{
+            display:flex;
+            flex-wrap:wrap;
+            flex-directions:row;
+            justify-content:space-between;
+
+        }
+        img{
+            display:flex;
+            height:20%;
+            width:20%;
+        }
+
+
+     .form-wrapper {
+        position: fixed;
+        top: 24%;
+        right: 20px;
+        transform: translateY(-50%);
+    }
+
+    .form-container {
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s, visibility 0s 0.3s;
+        background-color: #f1f1f1;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-wrapper:hover .form-container {
+        opacity: 1;
+        visibility: visible;
+        transition-delay: 0s;
+    }
+
+.feed{
+ background-color:grey;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 20px;
+}
+
+
+
+</style>
+</head>
+
+<body>
+
+       <div class="form-wrapper">
+       <div class="form-container">
+<form method="post" enctype="multipart/form-data">
+
+
+    {% csrf_token %}
+    <label value="Name">Name of your Company</label>
+    <input type="text" name="Title" required></input>
+    <label value="Upload">Image</label>
+    <input type="file" name="File" required></input>
+    <label value="Details">Details</label>
+    <input type="text" name="Description" required></input>
+    <label value="User">Your Name</label>
+    <input type="text" name="Post" required></input>
+
+    <input type="submit"></input>
+
+
+
+</form>
+       </div>
+       </div>
+<div class="reviews-container">
+    {% for review in data %}
+    <div class="review">
+
+         <!-- Add the URL of your 'reviews.html' page in the 'url' template tag -->
+            <a href="reviews/{{review.id}}">
+            <button >
+                <div class="feed">
+                <img src="{{ review.img.url }}" alt="ReviewImage">
+                </div>
+                    <div class="feed">
+                <h2 >COMPANY : {{ review.title }}</h2>
+                </div>
+            </button>
+                </a>
+
+
+    </div>
+    {% endfor %}
+</div>
+
+ <script>
+        function redirectToReviewsPage(imageSrc, imageId) {
+            const encodedImageSrc = encodeURIComponent(imageSrc);
+            window.location.href = `/reviews/?image_url=${encodedImageSrc}&image_id=${imageId}`;
+        }
+    </script>
+
+</body>
+{% include 'footer.html' %}
+</html>
+
